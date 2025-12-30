@@ -1,6 +1,17 @@
 # はじめに
 
-利用している JS  
+## Vue 3 へのアップグレード
+
+このリポジトリは Vue 3 にアップグレードされました。主な変更点：
+
+- Vue 2.x から Vue 3.x へ CDN を更新
+- `new Vue()` から `createApp()` へ変更
+- `data` オプションは関数として定義
+- `filters` は削除され、代わりに `methods` または computed properties を使用
+- Vue Router は v3 から v4 へアップグレード
+- `new VueRouter()` から `createRouter()` と `createWebHashHistory()` へ変更
+
+利用している JS
 [jsdeliver](https://www.jsdelivr.com/)
 
 | タイトル                                                                           | 説明                                                               |
@@ -21,26 +32,28 @@
 
 ## Vue.js を使うには
 
-Vue.js を扱うためのインスタンス、Vue インスタンスが必要
+Vue.js を扱うためのアプリケーションインスタンス、Vue アプリケーションが必要
 
 ## インスタンスのプロパティ
 
 ### 書き方の例
 
 ```javascript
-var app = new Vue({
-  el: "#app",
-  data: {
-    bpi: null,
-    hasError: false,
-    loading: true,
+const { createApp } = Vue;
+
+const app = createApp({
+  data() {
+    return {
+      bpi: null,
+      hasError: false,
+      loading: true,
+    }
   },
   methods: {
-    hello: function () {},
+    hello() {},
   },
-  mounted: function () {},
-  filters: {},
-});
+  mounted() {},
+}).mount("#app");
 ```
 
 ### el
@@ -49,7 +62,8 @@ Vue.js を適用するタグを指定するプロパティのこと
 
 ### data
 
-Vue.js 上で扱う変数を定義するプロパティのこと
+Vue.js 上で扱う変数を定義するプロパティのこと  
+Vue 3 では data は関数として定義し、オブジェクトを返す必要があります。
 
 ### methods
 
@@ -58,7 +72,7 @@ Vue.js 上で扱う関数を定義するプロパティのこと
 
 ### mounted
 
-インスタンスの el オプションにマウントされたときに実行されるプロパティのこと  
+インスタンスがマウントされたときに実行されるプロパティのこと  
 ※タグに Vue.js が適用された瞬間
 
 ### ディレクティブ
