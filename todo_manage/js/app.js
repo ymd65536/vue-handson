@@ -1,11 +1,14 @@
-var app = new Vue({
-    el : '#app',
-    data:{
-        newItem:'',
-        todos:[],
+const { createApp } = Vue;
+
+const app = createApp({
+    data() {
+        return {
+            newItem:'',
+            todos:[],
+        }
     },
     methods:{
-        addItem:function(event){
+        addItem(event){
             if (this.newItem == '') return ;
             //alert();
             var todo = {
@@ -15,8 +18,8 @@ var app = new Vue({
             this.todos.push(todo);
             this.newItem='';
         },
-        deleteItem: function(index){
+        deleteItem(index){
             this.todos.splice(index,1)
         }
     }
-})
+}).mount('#app')

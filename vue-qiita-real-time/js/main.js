@@ -1,24 +1,27 @@
-var app = new Vue({
-    el: '#app',
-    data: {
-        items: null,
-        keyword: '',
-        message:''
+const { createApp } = Vue;
+
+const app = createApp({
+    data() {
+        return {
+            items: null,
+            keyword: '',
+            message:''
+        }
     },
     watch: {
-        keyword: function (newkeyword, oldkeyword) {
+        keyword(newkeyword, oldkeyword) {
             // console.log(newkeyword)
             this.message = 'waiting for you stop typing...'
             this.debouncedGetAnswer()
         }
     },
-    created: function () {
+    created() {
         // this.keyword = 'JavaScript'
         // this.getAnswer()
         this.debouncedGetAnswer = _.debounce(this.getAnswer,1000)
     },
     methods: {
-        getAnswer: function () {
+        getAnswer() {
             if (this.keyword === '') {
                 this.items = null
                 this.message = ''
@@ -41,4 +44,4 @@ var app = new Vue({
             })
         }
     }
-})
+}).mount('#app')

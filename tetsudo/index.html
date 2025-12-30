@@ -38,7 +38,7 @@ http://cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js
               <tr v-for="test in bpi">
                 <td>{{ test.company }}</td>
                 <td>{{ test.name }}</td>
-                <td>{{ test.lastupdate_gmt | unixtime_conv}}</td>
+                <td>{{ unixtime_conv(test.lastupdate_gmt) }}</td>
                 <td>{{ test.source }}</td>
               </tr>
             </tbody>
@@ -47,38 +47,41 @@ http://cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js
       </div>
     </section>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js"></script>
   <script>
+    const { createApp } = Vue;
     var unixtime = new Date()
-    var app = new Vue({
-      el: '#app',
-      data: {
-        bpi: null,
-        hasError: false,
-        loading: true
+
+    const app = createApp({
+      data() {
+        return {
+          bpi: null,
+          hasError: false,
+          loading: true
+        }
       },
-      mounted: function () {
+      mounted() {
         axios.get('https://tetsudo.rti-giken.jp/free/delay.json')
-          .then(function (responce) {
+          .then((responce) => {
             this.bpi = responce.data
 
-          }.bind(this))
-          .catch(function (error) {
+          })
+          .catch((error) => {
             console.log(error)
             this.hasError = true
-          }.bind(this))
-          .finally(function () {
+          })
+          .finally(() => {
             this.loading = false
-          }.bind(this))
+          })
       },
-      filters:{
+      methods: {
         unixtime_conv(value) {
           unixtime.setTime(parseInt(value)/1000)
           return unixtime.toLocaleTimeString('ja-JP')
         }
       }
-    })
+    }).mount('#app')
   </script>
 </body>
 
