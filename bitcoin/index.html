@@ -20,44 +20,47 @@
             <div class="content" v-else>
                 <ul v-cloak>
                     <li v-for="(rate,currency ) in bpi">
-                        {{ currency }} : {{ rate.rate_float | curencyDecimal}}
+                        {{ currency }} : {{ curencyDecimal(rate.rate_float) }}
                     </li>
                 </ul>
             </div>
         </section>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js"></script>
     <script>
-        var app = new Vue({
-            el: '#app',
-            data: {
-                bpi: null,
-                hasError: false,
-                loading: true
+        const { createApp } = Vue;
+
+        const app = createApp({
+            data() {
+                return {
+                    bpi: null,
+                    hasError: false,
+                    loading: true
+                }
             },
-            mounted: function () {
+            mounted() {
                 axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
-                    .then(function (responce) {
+                    .then((responce) => {
                         //console.log(responce.data.bpi)
                         //console.log(responce.data.bpi.USD.rate_float)
                         this.bpi = responce.data.bpi
 
-                    }.bind(this))
-                    .catch(function (error) {
+                    })
+                    .catch((error) => {
                         console.log(error)
                         this.hasError = true
-                    }.bind(this))
-                    .finally(function () {
+                    })
+                    .finally(() => {
                         this.loading = false
-                    }.bind(this))
+                    })
             },
-            filters: {
+            methods: {
                 curencyDecimal(value) {
                     return value.toFixed(2)
                 }
             }
-        })
+        }).mount('#app')
     </script>
 </body>
 

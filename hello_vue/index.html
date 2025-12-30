@@ -37,26 +37,29 @@
     </ol>
 
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
 
   <script>
 
     let tst = 'Hello Vue.js!';
 
-    var app = new Vue({
-      el: '#app',
-      data: {
-        message: tst,
-        url: 'https://jp.vuejs.org/',
-        toggle: true,
-        languages: ['JavaScript', 'Ruby', 'Python']
+    const { createApp } = Vue;
+
+    const app = createApp({
+      data() {
+        return {
+          message: tst,
+          url: 'https://jp.vuejs.org/',
+          toggle: true,
+          languages: ['JavaScript', 'Ruby', 'Python']
+        }
       },
       methods: {
-        hello: function () {
+        hello() {
           this.message = 'click!';
         }
       }
-    })
+    }).mount('#app')
   </script>
 
 </body>

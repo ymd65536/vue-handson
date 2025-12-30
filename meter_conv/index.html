@@ -21,36 +21,39 @@
     </p>
 
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
 
   <script>
 
-    var app = new Vue({
-      el: '#app',
-      data: {
-        km: 0,
-        m: 0,
-        mm: 0
+    const { createApp } = Vue;
+
+    const app = createApp({
+      data() {
+        return {
+          km: 0,
+          m: 0,
+          mm: 0
+        }
       },
       watch: {
-        km: function (value) {
+        km(value) {
           this.km = value
           this.m = value * 1000
           this.mm = value * 1000000
         },
-        m: function (value) {
+        m(value) {
           this.km = value / 1000
           this.m = value
           this.mm = value * 1000
         },
-        mm: function (value) {
+        mm(value) {
           this.km = value / 1000000
           this.m = value / 1000
           this.mm = value
         }
 
       }
-    })
+    }).mount('#app')
   </script>
 
 </body>
